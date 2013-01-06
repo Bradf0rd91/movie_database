@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: movies
+#
+#  id         :integer          not null, primary key
+#  title      :string(255)
+#  year       :string(255)
+#  rec_form   :string(255)
+#  loanee     :string(255)
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class Movie < ActiveRecord::Base
   attr_accessible :loanee, :title, :rec_form, :year
 
