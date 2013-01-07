@@ -27,4 +27,11 @@ class Movie < ActiveRecord::Base
   def log_errors
     Rails.logger.info self.errors.full_messages.join("\n")
   end
+
+  define_index do
+    indexes title
+    indexes rec_form
+    indexes user.name, as: :owner
+    indexes loanee
+  end
 end

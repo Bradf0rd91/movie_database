@@ -1,6 +1,7 @@
 class MoviesController < ApplicationController
 def index
-  @movies = Movie.paginate(per_page: 20, page: params[:page])
+  # @movies = Movie.paginate(per_page: 20, page: params[:page])
+  @movies = Movie.search params[:search]
 end
 
 def edit
@@ -19,5 +20,13 @@ end
 
 def checked_out
   @movies = Movie.where("loanee != ''")
+end
+
+def search
+end
+
+def results
+  @search = params[:search]
+  raise @search.inspect
 end
 end

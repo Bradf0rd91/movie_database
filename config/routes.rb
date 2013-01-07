@@ -5,6 +5,8 @@ MovieDatabase::Application.routes.draw do
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
 
+  # match '/search', to: 'movies#search', as: 'search'
+  # match '/results', to: 'movies#results'
   match '/signin', to: 'sessions#new'
   match '/signout', to: 'sessions#destroy', via: :delete
   match '/checked', to: 'movies#checked_out', as: 'checked'
