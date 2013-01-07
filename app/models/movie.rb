@@ -9,13 +9,16 @@
 #  loanee     :string(255)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  user_id    :integer
 #
 
 class Movie < ActiveRecord::Base
   attr_accessible :loanee, :title, :rec_form, :year
+  belongs_to :user
 
   YEAR_FORMAT = /[0-9][0-9][0-9][0-9]|Unknown/
 
+  validates_presence_of :user_id
   validates :title, uniqueness: { scope: :rec_form }
   validates :year, format: { with: YEAR_FORMAT}
 

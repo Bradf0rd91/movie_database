@@ -1,18 +1,33 @@
 !!!
+%br
 - if signed_in?
-  = link_to "Sign out", signout_path, method: 'delete'
+  = link_to "Sign out", signout_path, method: 'delete', class: "btn btn-primary"
+  = link_to "View checked out", checked_path, class: "btn btn-primary"
+  = link_to "Search", '#', class: "btn btn-primary"
   %br
-    %table.table.table-striped.table-bordered
+  %br
+  = "Showing #{Movie.all.length} results"
+  %br
+  %br
+  %table.table.table-striped.table-bordered
+    %tr
+      %th Title
+      %th Year
+      %th Format
+      %th Loanee
+      %th Action
+    - @movies.each do |m|
       %tr
-        %th Title
-        %th Year
-        %th Format
-        %th Loanee
-      - @movies.each do |m|
-        %tr
-          %td= m.title
-          %td= m.year
-          %td= m.rec_form
-          %td= m.loanee
+        %td
+          = m.title
+        %td
+          = m.year
+        %td
+          = m.rec_form
+        %td
+          = m.loanee
+        %td
+          =link_to 'Update', edit_movie_path(m), {:class => "btn"}
+  = will_paginate
 - else
   = link_to "Sign in", signin_path

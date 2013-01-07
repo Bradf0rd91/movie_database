@@ -1,0 +1,10 @@
+%h1 Update a record
+.span6.well
+  = form_for @movie do |f|
+    = @movie.title
+    %p
+    = f.label :loanee
+    = f.text_field :loanee
+
+    = f.submit "Submit", class: "btn btn-large btn-primary"
+  = link_to "Back", root_path

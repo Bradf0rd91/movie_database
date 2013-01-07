@@ -10,6 +10,7 @@ namespace :movies do
       title = row[0]
       year = row[1]
       type = row[2]
+      user = User.first
       unless Mov.valid_year? year
         title = title << ", #{year.strip}"
         year = type
@@ -24,7 +25,7 @@ namespace :movies do
         end
       end
       log.info "Generating record for #{title}"
-      Movie.create(title: title, year: year, rec_form: type)
+      user.movies.create(title: title, year: year, rec_form: type)
       if Movie.find_by_title(title).blank?
         log.error "Failed importing #{title}"
       else

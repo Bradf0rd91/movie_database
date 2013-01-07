@@ -1,0 +1,22 @@
+%h1 Checked out movies
+= link_to "Home", root_path, class: "btn btn-primary"
+%br
+%table.table.table-striped.table-bordered
+  %tr
+    %th Title
+    %th Year
+    %th Format
+    %th Loanee
+    %th Action
+  - @movies.each do |m|
+    %tr
+      %td
+        = m.title
+      %td
+        = m.year
+      %td
+        = m.rec_form
+      %td
+        = m.loanee
+      %td
+        =link_to 'Update', edit_movie_path(m), {:class => "btn"}
