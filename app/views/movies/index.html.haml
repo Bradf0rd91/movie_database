@@ -1,0 +1,18 @@
+!!!
+- if signed_in?
+  = link_to "Sign out", signout_path, method: 'delete'
+  %br
+    %table.table.table-striped.table-bordered
+      %tr
+        %th Title
+        %th Year
+        %th Format
+        %th Loanee
+      - @movies.each do |m|
+        %tr
+          %td= m.title
+          %td= m.year
+          %td= m.rec_form
+          %td= m.loanee
+- else
+  = link_to "Sign in", signin_path

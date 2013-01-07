@@ -11,6 +11,7 @@ gem 'bootstrap-sass', '2.0.4'
 gem 'jquery-rails', '2.0.2'
 gem 'bcrypt-ruby', '3.0.1'
 gem 'annotate'
+gem 'haml'
 
 
 # Gems used only for assets and not required
