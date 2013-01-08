@@ -4,13 +4,15 @@ MovieDatabase::Application.routes.draw do
 
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
+  resources :movies
 
   # match '/search', to: 'movies#search', as: 'search'
   # match '/results', to: 'movies#results'
   match '/signin', to: 'sessions#new'
   match '/signout', to: 'sessions#destroy', via: :delete
   match '/checked', to: 'movies#checked_out', as: 'checked'
-  resources :movies
+  match '/my_movies', to: 'movies#my_movies', as: 'my_movies'
+  
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

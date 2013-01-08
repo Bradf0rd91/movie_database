@@ -1,0 +1,15 @@
+!!!
+- @title = "New movie"
+%h1 New movie
+.row
+  .span6.offset3
+    = form_for @movie do |f|
+      = f.label :title
+      = f.text_field :title, placeholder: "Blockbuster hit"
+      = f.label :year
+      = f.text_field :year, placeholder: "Year of awesome"
+      = f.label :rec_form
+      = f.select :rec_form, options_for_select([['DVD', 'DVD-Rom'],['Digital copy', 'Digital Media'],['Blu-Ray', 'Blu-Ray']])
+      %br
+      = f.submit "Add", class: "btn btn-primary"
+    = link_to "Back", root_path, class: "btn btn-primary"

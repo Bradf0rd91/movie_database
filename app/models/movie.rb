@@ -29,9 +29,9 @@ class Movie < ActiveRecord::Base
   end
 
   define_index do
-    indexes title
+    indexes title, sortable: true
     indexes rec_form
     indexes user.name, as: :owner
-    indexes loanee
+    indexes loanee, sortable: true
   end
 end
