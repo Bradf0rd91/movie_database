@@ -1,17 +1,64 @@
 !!!
-%br
-= link_to "Sign out", signout_path, method: 'delete', class: "btn btn-primary"
-= link_to "View checked out", checked_path, class: "btn btn-primary"
-= link_to "Full index", root_path, class: "btn"
-= link_to "My movies", my_movies_path, class: "btn btn-primary"
-= link_to "Add a new movie", new_movie_path, class: "btn btn-success"
-%br
-%br
-= form_tag movies_path, method: 'get' do
-  %p
-    = text_field_tag :search, params[:search], placeholder: "Search by name or keyword"
-    = submit_tag "Search", class: "btn btn-primary"
-= "Showing #{Movie.all.length} results"
-%br
-%br
-= render 'movies/table'
+%head
+%body
+  %br
+  = link_to "Sign out", signout_path, method: 'delete', class: "btn btn-primary"
+  = link_to "View checked out", checked_path, class: "btn btn-primary"
+  = link_to "Full index", root_path, class: "btn"
+  = link_to "My movies", my_movies_path, class: "btn btn-primary"
+  = link_to "Add a new movie", new_movie_path, class: "btn btn-success"
+  %br
+  %br
+  = form_tag movies_path, method: 'get' do
+    %p
+      = text_field_tag :search, params[:search], placeholder: "Search by name or keyword"
+      = submit_tag "Search", class: "btn btn-primary"
+  = "Showing #{@movies.total_entries} results"
+  %br
+  %br
+  / %table.table.table-bordered
+  /   %thead
+  /     %tr.info
+  /       %th Title
+  /       %th Year
+  /       %th Format
+  /       %th Loanee
+  /       %th Action
+  /   %tbody
+  /     = render partial: 'movies/table', collection: @movies, as: :m
+  / = will_paginate
+  %table.table.table-striped.table-bordered
+    %thead
+      %tr
+        %th Title
+        %th Year
+        %th Format
+        %th Loanee
+        %th Action
+    %tbody
+      -@movies.each do |m|
+        -unless m.loanee.blank?
+          %tr.error
+            %td
+              = m.title
+            %td
+              = m.year
+            %td
+              = m.rec_form
+            %td
+              = m.loanee
+            %td
+              = link_to 'Check in', edit_movie_path(m), {:class => "btn"}
+        -else
+          %tr
+            %td
+              = m.title
+            %td
+              = m.year
+            %td
+              = m.rec_form
+            %td
+              = m.loanee
+            %td
+              = link_to 'Check out', edit_movie_path(m), {:class => "btn"}    
+  = will_paginate

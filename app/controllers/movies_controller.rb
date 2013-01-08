@@ -42,12 +42,6 @@ def checked_out
 end
 
 def my_movies
-  # raise current_user.id.inspect
   @movies = Movie.where("user_id = '#{current_user.id}'").paginate(page: params[:page], per_page: 20).order('title ASC')
-end
-
-def results
-  @search = params[:search]
-  raise @search.inspect
 end
 end

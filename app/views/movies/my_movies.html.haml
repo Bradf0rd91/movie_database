@@ -2,4 +2,12 @@
 %h1 My movies
 = link_to "Home", root_path, class: "btn btn-primary"
 %br
-= render 'movies/table'
+= "Showing #{@movies.total_entries} results"
+%table.table.table-striped.table-bordered
+  %tr
+    %th Title
+    %th Year
+    %th Format
+    %th Loanee
+    %th Action
+  = render partial: 'movies/table', collection: @movies, as: :m

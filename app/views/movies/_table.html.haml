@@ -1,20 +1,24 @@
-%table.table.table-striped.table-bordered
+- if m.loanee.blank?
   %tr
-    %th Title
-    %th Year
-    %th Format
-    %th Loanee
-    %th Action
-  - @movies.each do |m|
-    %tr
-      %td
-        = m.title
-      %td
-        = m.year
-      %td
-        = m.rec_form
-      %td
-        = m.loanee
-      %td
-        =link_to 'Update', edit_movie_path(m), {:class => "btn"}
-= will_paginate
+    %td
+      = m.title
+    %td
+      = m.year
+    %td
+      = m.rec_form
+    %td
+      = m.loanee
+    %td
+      = link_to 'Check out', edit_movie_path(m), class: "btn"
+- else
+  %tr.error
+    %td
+      = m.title
+    %td
+      = m.year
+    %td
+      = m.rec_form
+    %td
+      = m.loanee
+    %td
+      = link_to 'Check in', edit_movie_path(m), class: "btn btn-success"
