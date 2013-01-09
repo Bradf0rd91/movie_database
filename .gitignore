@@ -12,4 +12,8 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*.log
+/log/search*
 /tmp
+/db/sphinx
+
+/config/initializers/setup_mail.rb

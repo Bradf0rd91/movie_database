@@ -18,6 +18,8 @@ def create
   if @movie.save
     redirect_to root_path, flash: { success: "Movie added!" }
     %x[rake ts:rebuild]
+    User.all.each {|user| UserMailer.alert_users(current_user, user,
+      @movie).deliver unless user == current_user }
   else
     render 'new', flash: { error: "That movie was invalid" }
   end
@@ -43,5 +45,14 @@ end
 
 def my_movies
   @movies = Movie.where("user_id = '#{current_user.id}'").paginate(page: params[:page], per_page: 20).order('title ASC')
+end
+
+def wish_list
+  raise params.inspect
+  @movie = params[:movie]
+  # @movie = Movie.new
+  User.all.each {|user| UserMailer.movie_request(current_user,
+    user,@movie).deliver unless user == current_user}
+  # @movie.destroy
 end
 end
