@@ -10,6 +10,10 @@
       = f.text_field :year, placeholder: "Year of awesome"
       = f.label :rec_form
       = f.select :rec_form, options_for_select([['DVD', 'DVD-Rom'],['Digital copy', 'Digital Media'],['Blu-Ray', 'Blu-Ray']])
+      = f.label :active, "Add"
+      = f.radio_button :active, true
+      = f.label :active, "Request"
+      = f.radio_button :active, false      
       %br
       = f.submit "Add", class: "btn btn-primary"
     = link_to "Back", root_path, class: "btn btn-primary"

@@ -13,7 +13,7 @@
 #
 
 class Movie < ActiveRecord::Base
-  attr_accessible :loanee, :title, :rec_form, :year
+  attr_accessible :loanee, :title, :rec_form, :year, :active
   belongs_to :user
 
   YEAR_FORMAT = /[0-9][0-9][0-9][0-9]|Unknown/
@@ -33,5 +33,6 @@ class Movie < ActiveRecord::Base
     indexes rec_form
     indexes user.name, as: :owner
     indexes loanee, sortable: true
+    indexes active
   end
 end

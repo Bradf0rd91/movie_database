@@ -1,24 +1,14 @@
-- if m.loanee.blank?
-  %tr
-    %td
-      = m.title
-    %td
-      = m.year
-    %td
-      = m.rec_form
-    %td
-      = m.loanee
-    %td
+%tr
+  %td
+    = m.title
+  %td
+    = m.year
+  %td
+    = m.rec_form
+  %td
+    = m.loanee
+  %td
+    - if m.loanee.blank?
       = link_to 'Check out', edit_movie_path(m), class: "btn"
-- else
-  %tr.error
-    %td
-      = m.title
-    %td
-      = m.year
-    %td
-      = m.rec_form
-    %td
-      = m.loanee
-    %td
-      = link_to 'Check in', edit_movie_path(m), class: "btn btn-success"
+    - else
+      = link_to 'Check in', edit_movie_path(m), class: "btn btn-inverse"

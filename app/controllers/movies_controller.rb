@@ -1,8 +1,7 @@
 class MoviesController < ApplicationController
 def index
-  # @movies = Movie.paginate(per_page: 20, page: params[:page])
   if signed_in?
-    @movies = Movie.search params[:search], page: params[:page], per_page: 20, order: :title, sort_mode: :asc
+    @movies = Movie.search params[:search], conditions: { active: '1' }, page: params[:page], per_page: 20, order: :title, sort_mode: :asc
   else
     redirect_to signin_path, flash: { notice: "Please sign in to view this page" }
   end
@@ -14,12 +13,17 @@ end
 
 def create
   @movie = current_user.movies.build(params[:movie])
-  # raise @movie.inspect
   if @movie.save
-    redirect_to root_path, flash: { success: "Movie added!" }
-    %x[rake ts:rebuild]
-    User.all.each {|user| UserMailer.alert_users(current_user, user,
-      @movie).deliver unless user == current_user }
+    if @movie.active
+      redirect_to root_path, flash: { success: "Movie added!" }
+      User.all.each {|user| UserMailer.alert_users(current_user, user,
+        @movie).deliver unless user == current_user }
+    else
+      redirect_to root_path, flash: { success: "Movie requested!" }
+      User.all.each {|user| UserMailer.movie_request(current_user,
+        user,@movie).deliver unless user == current_user}
+    end
+    %x[rake ts:rebuild]    
   else
     render 'new', flash: { error: "That movie was invalid" }
   end
@@ -39,8 +43,23 @@ def update
   redirect_to root_path
 end
 
+def destroy
+  movie = Movie.find(params[:id])
+  movie.destroy
+  if movie.destroyed?
+    flash[:notice] = "Movie has been deleted"
+  else
+    flash[:error] = "Something went wrong"
+  end
+  redirect_to root_path
+end
+
 def checked_out
   @movies = Movie.where("loanee != ''").paginate(page: params[:page], per_page: 20).order('loanee ASC')
+end
+
+def requested
+  @movies = Movie.where("not active").paginate(page: params[:page], per_page: 20).group('user_id')
 end
 
 def my_movies
@@ -48,11 +67,19 @@ def my_movies
 end
 
 def wish_list
-  raise params.inspect
-  @movie = params[:movie]
-  # @movie = Movie.new
-  User.all.each {|user| UserMailer.movie_request(current_user,
-    user,@movie).deliver unless user == current_user}
-  # @movie.destroy
+  # raise params.inspect
+  # params[:movie][:active] = '0'
+  @movie = current_user.movies.build(params[:movie])
+  @movie.active = '0'
+  # raise params.inspect
+  if @movie.save
+    raise @movie.inspect
+    User.all.each {|user| UserMailer.movie_request(current_user,
+      user,@movie).deliver unless user == current_user}
+    redirect_to root_path, flash: { success: "Movie requested!" }
+    %x[rake ts:rebuild]
+  else
+    render 'wish_list', flash: { error: "Something went wrong. Please try again later." }
+  end
 end
 end

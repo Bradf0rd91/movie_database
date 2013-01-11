@@ -1,0 +1,26 @@
+!!!
+- @title = "Requested"
+%h2 Requested titles
+= link_to "Home", root_path, class: "btn btn-primary"
+%br
+= "Showing #{@movies.total_entries} results"
+%table.table.table-striped
+  %tr
+    %th Title
+    %th Year
+    %th Format
+    %th Requested by
+    %th Actions
+  - @movies.each do |m|
+    %tr
+      %td
+        = m.title
+      %td
+        = m.year
+      %td
+        = m.rec_form
+      %td
+        = User.find(m.user_id).name
+      %td
+        = button_to "Add", movie_path(m, "m[:active]" => true), confirm: "Add this movie?", method: :put, class: "btn"
+        = button_to "Delete", m, confirm: "Delete this movie?", method: :delete, class: "btn btn-danger"
