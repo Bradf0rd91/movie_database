@@ -36,6 +36,7 @@ end
 def update
   @movie = Movie.find(params[:id])
   if @movie.update_attributes(params[:movie])
+    %x[rake ts:rebuild]
     flash[:notice] = "Movie was successfully updated"
   else
     flash[:error] = "Movie was not changed"
@@ -64,22 +65,5 @@ end
 
 def my_movies
   @movies = Movie.where("user_id = '#{current_user.id}'").paginate(page: params[:page], per_page: 20).order('title ASC')
-end
-
-def wish_list
-  # raise params.inspect
-  # params[:movie][:active] = '0'
-  @movie = current_user.movies.build(params[:movie])
-  @movie.active = '0'
-  # raise params.inspect
-  if @movie.save
-    raise @movie.inspect
-    User.all.each {|user| UserMailer.movie_request(current_user,
-      user,@movie).deliver unless user == current_user}
-    redirect_to root_path, flash: { success: "Movie requested!" }
-    %x[rake ts:rebuild]
-  else
-    render 'wish_list', flash: { error: "Something went wrong. Please try again later." }
-  end
 end
 end

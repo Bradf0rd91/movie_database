@@ -12,7 +12,6 @@ MovieDatabase::Application.routes.draw do
   match '/signout', to: 'sessions#destroy', via: :delete
   match '/checked', to: 'movies#checked_out', as: 'checked'
   match '/my_movies', to: 'movies#my_movies', as: 'my_movies'
-  match '/wish_list', to: 'movies#wish_list', as: 'wish_list'
   match '/requested', to: 'movies#requested', as: 'requested'
 
   # The priority is based upon order of creation:

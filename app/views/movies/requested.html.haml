@@ -11,16 +11,16 @@
     %th Format
     %th Requested by
     %th Actions
-  - @movies.each do |m|
+  - @movies.each do |movie|
     %tr
       %td
-        = m.title
+        = movie.title
       %td
-        = m.year
+        = movie.year
       %td
-        = m.rec_form
+        = movie.rec_form
       %td
-        = User.find(m.user_id).name
+        = User.find(movie.user_id).name
       %td
-        = button_to "Add", movie_path(m, "m[:active]" => true), confirm: "Add this movie?", method: :put, class: "btn"
-        = button_to "Delete", m, confirm: "Delete this movie?", method: :delete, class: "btn btn-danger"
+        = button_to "Add", movie_path(movie, "movie[active]" => '1'), confirm: "Add this movie?", method: :put, class: "btn"
+        = button_to "Delete", movie, confirm: "Delete this movie?", method: :delete, class: "btn btn-danger"
