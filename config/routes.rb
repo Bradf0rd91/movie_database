@@ -13,6 +13,7 @@ MovieDatabase::Application.routes.draw do
   match '/checked', to: 'movies#checked_out', as: 'checked'
   match '/my_movies', to: 'movies#my_movies', as: 'my_movies'
   match '/requested', to: 'movies#requested', as: 'requested'
+  match '/all', to: 'movies#all', as: 'full_csv'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -24,6 +24,34 @@ class Movie < ActiveRecord::Base
 
   after_validation :log_errors, :if => Proc.new {|m| m.errors}
 
+  def self.to_csv action
+    columns = %w{title year rec_form}
+    case action
+    when "checked","all"
+      headers = %w{title year format loanee owner}
+    when "requested"
+      headers = %w{title year format owner}
+    when "mine"
+      headers = %w{title year format loanee}
+    end
+    CSV.generate do |csv|
+      csv << headers
+      all.each do |movie|
+        if headers.include?("loanee")
+          if headers.include?("owner")
+            csv << [movie.title, movie.year, movie.rec_form, movie.loanee, User.find(movie.user_id).name]
+          else
+            csv << [movie.title, movie.year, movie.rec_form, movie.loanee]
+          end
+        elsif headers.include?("owner")
+          csv << [movie.title, movie.year, movie.rec_form, User.find(movie.user_id).name]
+        else
+          csv << movie.attributes.values_at(*columns)
+        end
+      end
+    end
+  end
+
   def log_errors
     Rails.logger.info self.errors.full_messages.join("\n")
   end

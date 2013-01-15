@@ -57,13 +57,32 @@ end
 
 def checked_out
   @movies = Movie.where("loanee != ''").paginate(page: params[:page], per_page: 20).order('loanee ASC')
+  respond_to do |format|
+    format.html
+    format.csv { render text: (@movies.to_csv "checked") }
+  end
 end
 
 def requested
   @movies = Movie.where("not active").paginate(page: params[:page], per_page: 20).group('user_id')
+  respond_to do |format|
+    format.html
+    format.csv { render text: (@movies.to_csv "requested") }
+  end    
 end
 
 def my_movies
   @movies = Movie.where("user_id = '#{current_user.id}'").paginate(page: params[:page], per_page: 20).order('title ASC')
+  respond_to do |format|
+    format.html
+    format.csv { render text: (@movies.to_csv "mine") }
+  end  
+end
+
+def all
+  @movies = Movie.where("active").order('title ASC')
+  respond_to do |format|
+    format.csv { render text: (@movies.to_csv "all") }
+  end  
 end
 end
