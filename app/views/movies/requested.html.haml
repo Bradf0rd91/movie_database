@@ -3,6 +3,8 @@
 %h2 Requested titles
 = link_to "Home", root_path, class: "btn btn-primary"
 %br
+= link_to "Download", requested_path(format: 'csv')
+%br
 = "Showing #{@movies.total_entries} results"
 %table.table.table-striped
   %tr

@@ -9,6 +9,7 @@
   = link_to "My movies", my_movies_path, class: "btn btn-success"
   = link_to "Add a new movie", new_movie_path, class: "btn btn-danger"
   %br
+  = link_to "Download", full_csv_path(format: 'csv')
   %br
   = form_tag movies_path, method: 'get' do
     %p

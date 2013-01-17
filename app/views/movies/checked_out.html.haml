@@ -2,6 +2,8 @@
 %h1 Checked out movies
 = link_to "Home", root_path, class: "btn btn-primary"
 %br
+= link_to "Download", checked_path(format: 'csv')
+%br
 = "Showing #{@movies.total_entries} results"
 %table.table.table-striped.table-bordered
   %tr
