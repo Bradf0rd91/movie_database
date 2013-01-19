@@ -4,7 +4,9 @@ MovieDatabase::Application.routes.draw do
 
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
-  resources :movies
+  resources :movies do
+    collection { post :import }
+  end
 
   # match '/search', to: 'movies#search', as: 'search'
   # match '/results', to: 'movies#results'

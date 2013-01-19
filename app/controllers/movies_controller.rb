@@ -29,6 +29,14 @@ def create
   end
 end
 
+def import
+  CSV.foreach(params[:file].path, headers: true) do |row|
+    current_user.movies.create! row.to_hash
+  end
+  redirect_to root_path, flash: { success: "Movies imported!"}
+  %x[rake ts:rebuild]
+end
+
 def edit
   @movie = Movie.find(params[:id])
 end

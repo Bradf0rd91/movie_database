@@ -17,3 +17,7 @@
       %br
       = f.submit "Add", class: "btn btn-primary"
     = link_to "Back", root_path, class: "btn btn-primary"
+    %br
+    = form_tag import_movies_path, multipart: true do
+      = file_field_tag :file
+      = submit_tag "Import"
