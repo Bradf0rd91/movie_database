@@ -1,31 +1,35 @@
 !!!
 %head
 %body
+  / = link_to "Sign out", signout_path, method: 'delete', class: "btn btn-warning"
+  / = link_to "View checked out", checked_path, class: "btn btn-info"
+  / = link_to "View requested", requested_path, class: "btn btn-warning"
+  / = link_to "Full index", root_path, class: "btn btn-primary"
+  / = link_to "My movies", my_movies_path, class: "btn btn-success"
+  / = link_to "Add a new movie", new_movie_path, class: "btn btn-danger"
+  / %br
+  / %button.btn.btn-mini.btn-primary
+  /.center
+  #page-title
+    %h2 Full Index
+    = link_to "Download CSV", full_csv_path(format: 'csv'), {class: "btn btn-mini btn-primary"}
+    %br
+    = "Showing #{@movies.total_entries} results"
+  / = form_tag movies_path, method: 'get' do
+  /   %p
+  /     = text_field_tag :search, params[:search], placeholder: "Search by name or keyword"
+  /     = submit_tag "Search", class: "btn btn-primary"
   %br
-  = link_to "Sign out", signout_path, method: 'delete', class: "btn btn-warning"
-  = link_to "View checked out", checked_path, class: "btn btn-info"
-  = link_to "View requested", requested_path, class: "btn btn-warning"
-  = link_to "Full index", root_path, class: "btn btn-primary"
-  = link_to "My movies", my_movies_path, class: "btn btn-success"
-  = link_to "Add a new movie", new_movie_path, class: "btn btn-danger"
   %br
-  = link_to "Download", full_csv_path(format: 'csv')
-  %br
-  = form_tag movies_path, method: 'get' do
-    %p
-      = text_field_tag :search, params[:search], placeholder: "Search by name or keyword"
-      = submit_tag "Search", class: "btn btn-primary"
-  = "Showing #{@movies.total_entries} results"
-  %br
-  %br
-  %table.table.table-striped
-    %thead
-      %tr.info
-        %th Title
-        %th Year
-        %th Format
-        %th Loanee
-        %th Action
-    %tbody
-      = render partial: 'movies/table', collection: @movies, as: :m
+  .well
+    %table.table.table-striped
+      %thead
+        %tr
+          %th Title
+          %th Year
+          %th Format
+          %th Loanee
+          %th Action
+      %tbody
+        = render partial: 'movies/table', collection: @movies, as: :m
   = will_paginate

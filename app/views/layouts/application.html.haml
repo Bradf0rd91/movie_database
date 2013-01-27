@@ -8,8 +8,35 @@
     = csrf_meta_tags
   %body
     .container
+      .navbar.navbar-fixed-top
+        .navbar-inner
+          #home-link
+            %a.brand{:href => root_path} MovieDatabase
+          - if current_user
+            %ul.nav
+              %li.divider-vertical
+              %li
+                %a{:href => my_movies_path} My Movies
+              %li
+                %a{:href => checked_path} Checked Out
+              %li
+                %a{:href => requested_path} Requested
+              %li
+                %a{:href => new_movie_path} New Movie
+            %ul.nav.pull-right
+              %form.navbar-search
+                / %input.search-query{:placeholder => "Search by name or keyword", params[:search]}
+                = form_tag movies_path, method: 'get' do
+                  = text_field_tag :search, params[:search], {:class => "search-query", :placeholder => "Search by name or keyword"}
+              %li
+                #name
+                  =current_user.name
+              %li.divider-vertical
+              %li
+                %a{:href => signout_path, method: 'delete'} Sign out
+
       - flash.each do |k,v|
         = content_tag(:div, v, class: "alert alert-#{k}")
-      = "Currently signed in as #{@current_user.name}" if signed_in?
+      / = "Currently signed in as #{@current_user.name}" if signed_in?
       = yield
       = debug(params) if Rails.env.development?

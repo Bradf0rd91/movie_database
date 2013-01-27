@@ -11,7 +11,7 @@ MovieDatabase::Application.routes.draw do
   # match '/search', to: 'movies#search', as: 'search'
   # match '/results', to: 'movies#results'
   match '/signin', to: 'sessions#new'
-  match '/signout', to: 'sessions#destroy', via: :delete
+  match '/signout', to: 'sessions#destroy', as: 'signout_path'
   match '/checked', to: 'movies#checked_out', as: 'checked'
   match '/my_movies', to: 'movies#my_movies', as: 'my_movies'
   match '/requested', to: 'movies#requested', as: 'requested'

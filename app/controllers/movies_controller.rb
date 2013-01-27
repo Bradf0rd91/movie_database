@@ -25,13 +25,16 @@ def create
     end
     %x[rake ts:rebuild]    
   else
-    render 'new', flash: { error: "That movie was invalid" }
+    redirect_to new_movie_path, flash: { error: "That movie was invalid. A similar film already exists in the database." }
   end
 end
 
 def import
   CSV.foreach(params[:file].path, headers: true) do |row|
-    current_user.movies.create! row.to_hash
+    film = current_user.movies.build row.to_hash
+    unless film.save
+      redirect_to new_movie_path, flash: { error: "Duplicate movie found. Double check your CSV file so that it doesn't include movies that already exist in the database." } and return
+    end
   end
   redirect_to root_path, flash: { success: "Movies imported!"}
   %x[rake ts:rebuild]
